@@ -13,9 +13,38 @@ import {
 export default function LoginScreen() {
   const router = useRouter();
   const [remember, setRemember] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
 
   const handleRegister = () => {
     router.push("/register");
+  };
+
+  const handleLogin = () => {
+    // Validasi sederhana
+    if (!formData.email || !formData.password) {
+      alert("Email dan kata sandi harus diisi!");
+      return;
+    }
+
+    // Validasi format email sederhana
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Format email tidak valid!");
+      return;
+    }
+
+    // Jika validasi berhasil, arahkan ke beranda
+    router.push("/beranda");
+  };
+
+  const updateFormData = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
@@ -36,6 +65,8 @@ export default function LoginScreen() {
         placeholderTextColor="#888"
         style={styles.input}
         keyboardType="email-address"
+        value={formData.email}
+        onChangeText={(text) => updateFormData('email', text)}
       />
 
       {/* Password */}
@@ -45,6 +76,8 @@ export default function LoginScreen() {
         placeholderTextColor="#888"
         secureTextEntry
         style={styles.input}
+        value={formData.password}
+        onChangeText={(text) => updateFormData('password', text)}
       />
 
       {/* Custom Checkbox */}
@@ -58,7 +91,7 @@ export default function LoginScreen() {
       </TouchableOpacity>
 
       {/* Login Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Masuk</Text>
       </TouchableOpacity>
 
