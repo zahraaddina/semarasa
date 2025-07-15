@@ -37,7 +37,7 @@ export default function LoginScreen() {
     }
 
     // Jika validasi berhasil, arahkan ke beranda
-    router.push("/beranda");
+    router.push("/(tabs)/index");
   };
 
   const updateFormData = (field, value) => {
